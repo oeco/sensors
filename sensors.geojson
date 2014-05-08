@@ -1,0 +1,47 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "feed_id": "337571715",
+        "X-ApiKey": "yLqj9j87xW37ktl8p8D3W7Bjm2wNdFyiJp3mwq68TQubIqo7"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.5985107421875,
+          -23.589160275994917
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "feed_id": "1070388971",
+        "X-ApiKey": "eHIZoVN3r4dk3m0nfcapZDgV1n2W72o7Q1yZcI2rJrpCZnMi"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.598510775,
+          -25.589994917
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "feed_id": "2001586077",
+        "X-ApiKey": "h21DurKJ4UwlM7fTB7BHP5APwxtUK69ALi2sjfDtgtfUnUwD"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -38.49884033203125,
+          -12.979133130990242
+        ]
+      }
+    }
+  ]
+}
