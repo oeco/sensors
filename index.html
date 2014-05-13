@@ -51,11 +51,22 @@
 				geojson.features = features;
 				console.log(features);
 				L.geoJson(geojson,{
-					style: function(feature) {
-						switch (feature.properties.party) {
-							case 'Republican': return {color: "#ff0000"};
-							case 'Democrat':   return {color: "#0000ff"};
+					pointToLayer: function(feature, latlng) {
+						var myStyle = {
+							radius: 3,
+							fillColor: "#ff7800",
+							color: "#000",
+							weight: 1,
+							opacity: 1,
+							fillOpacity: 1
+						};
+
+						if (feature.properties.datastreams[0].current_value > 100) {
+							myStyle.fillColor = 'red';
+						} else {
+							myStyle.fillColor = 'green';							
 						}
+						return L.circleMarker(latlng, myStyle);
 					},
 					onEachFeature: function (feature, layer) {
 						var popupContent = 
