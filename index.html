@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="../dist/leaflet.css" />
 </head>
 <body>
-	<div id="map" style="width: 600px; height: 400px"></div>
+	<div id="map" style="width: 1280px; height: 768px"></div>
 
 	<script src="../dist/jquery-1.11.1.min.js"></script>
 	<script src="../dist/underscore-min.js"></script>	
@@ -20,7 +20,9 @@
 		var xively_endpoint = "https://api.xively.com/v2/feeds/";
 		var sensors_geojson;
 
-		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+		http://a.tiles.mapbox.com/v3/infoamazonia.h17kafbd/10/375/579.png
+
+		L.tileLayer('http://{s}.tiles.mapbox.com/v3/infoamazonia.h17kafbd/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
 
@@ -36,6 +38,27 @@
 				error: function(err) { callback(err) }
 			});
 		}
+
+		function getDatastream(feed_id, x_apikey, start, duration, callback){
+			// https://api.xively.com/v2/feeds/2001586077.json?start=2014-05-05T&duration=6hours
+			start = start || '2014-05-05T';
+			duration = duration || '6hours';
+			$.ajax({
+				url: xively_endpoint+feed_id,
+				type: 'GET',
+				data: { start: start, duration: duration},
+				dataType: 'json',
+				beforeSend: function(request) {
+					request.setRequestHeader("X-ApiKey", x_apikey);
+				},
+				success: function(data) { callback(null, data) },
+				error: function(err) { callback(err) }
+			});
+		}
+
+		getDatastream('2001586077', "h21DurKJ4UwlM7fTB7BHP5APwxtUK69ALi2sjfDtgtfUnUwD", null, null, function(err, data){
+			console.log(data);
+		})
 
 		$.getJSON("sensors.geojson", function(geojson) {
 
