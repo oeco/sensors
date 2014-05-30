@@ -14,51 +14,50 @@
 	<script src="../dist/underscore-min.js"></script>	
 	<script src="../dist/async.js"></script>	
 	<script src="../dist/leaflet.js"></script>
+	<script src="../lib/sensors.js"></script>
 
 	<script>
 		var map = L.map('map').setView([-14.82,-49.09515], 4);
 		var xively_endpoint = "https://api.xively.com/v2/feeds/";
 		var sensors_geojson;
 
-		http://a.tiles.mapbox.com/v3/infoamazonia.h17kafbd/10/375/579.png
-
 		L.tileLayer('http://{s}.tiles.mapbox.com/v3/infoamazonia.h17kafbd/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
 
-		var fetchSensorData = function(feed_id, x_apikey, callback) {
-			$.ajax({
-				url: xively_endpoint+feed_id,
-				type: 'GET',
-				dataType: 'json',
-				beforeSend: function(request) {
-					request.setRequestHeader("X-ApiKey", x_apikey);
-				},
-				success: function(data) { callback(null, data) },
-				error: function(err) { callback(err) }
-			});
-		}
+		// var fetchSensorData = function(feed_id, x_apikey, callback) {
+		// 	$.ajax({
+		// 		url: xively_endpoint+feed_id,
+		// 		type: 'GET',
+		// 		dataType: 'json',
+		// 		beforeSend: function(request) {
+		// 			request.setRequestHeader("X-ApiKey", x_apikey);
+		// 		},
+		// 		success: function(data) { callback(null, data) },
+		// 		error: function(err) { callback(err) }
+		// 	});
+		// }
 
-		function getDatastream(feed_id, x_apikey, start, duration, callback){
-			// https://api.xively.com/v2/feeds/2001586077.json?start=2014-05-05T&duration=6hours
-			start = start || '2014-05-05T';
-			duration = duration || '6hours';
-			$.ajax({
-				url: xively_endpoint+feed_id,
-				type: 'GET',
-				data: { start: start, duration: duration},
-				dataType: 'json',
-				beforeSend: function(request) {
-					request.setRequestHeader("X-ApiKey", x_apikey);
-				},
-				success: function(data) { callback(null, data) },
-				error: function(err) { callback(err) }
-			});
-		}
+		// function getDatastream(feed_id, x_apikey, start, duration, callback){
+		// 	// https://api.xively.com/v2/feeds/2001586077.json?start=2014-05-05T&duration=6hours
+		// 	start = start || '2014-05-05T';
+		// 	duration = duration || '6hours';
+		// 	$.ajax({
+		// 		url: xively_endpoint+feed_id,
+		// 		type: 'GET',
+		// 		data: { start: start, duration: duration},
+		// 		dataType: 'json',
+		// 		beforeSend: function(request) {
+		// 			request.setRequestHeader("X-ApiKey", x_apikey);
+		// 		},
+		// 		success: function(data) { callback(null, data) },
+		// 		error: function(err) { callback(err) }
+		// 	});
+		// }
 
-		getDatastream('2001586077', "h21DurKJ4UwlM7fTB7BHP5APwxtUK69ALi2sjfDtgtfUnUwD", null, null, function(err, data){
-			console.log(data);
-		})
+		// getDatastream('2001586077', "h21DurKJ4UwlM7fTB7BHP5APwxtUK69ALi2sjfDtgtfUnUwD", null, null, function(err, data){
+		// 	console.log(data);
+		// })
 
 		$.getJSON("sensors.geojson", function(geojson) {
 
@@ -66,6 +65,7 @@
 
 			async.each(geojson.features, function(f, callback){
 				fetchSensorData(f.properties['feed_id'], f.properties['X-ApiKey'], function(err,data){
+					console.log(data);
 					f.properties = _.extend(f.properties, data);
 					features.push(f);
 					callback();
