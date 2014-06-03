@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="../dist/leaflet.css" />
 </head>
 <body>
-	<div id="map" style="width: 1280px; height: 768px"></div>
+	<div id="map" style="width: 400px; height: 300px"></div>
 
 	<script src="../dist/jquery-1.11.1.min.js"></script>
 	<script src="../dist/underscore-min.js"></script>	
@@ -63,44 +63,38 @@
 
 			var features = [];
 
-			async.each(geojson.features, function(f, callback){
-				fetchSensorData(f.properties['feed_id'], f.properties['X-ApiKey'], function(err,data){
-					console.log(data);
-					f.properties = _.extend(f.properties, data);
-					features.push(f);
-					callback();
-				});
-			}, function(err){
-				geojson.features = features;
-				console.log(features);
-				L.geoJson(geojson,{
-					pointToLayer: function(feature, latlng) {
-						var myStyle = {
-							radius: 3,
-							fillColor: "#ff7800",
-							color: "#000",
-							weight: 1,
-							opacity: 1,
-							fillOpacity: 1
-						};
+			parseSensorGeoJSON(geojson, function(){
+				// geojson.features = features;
+				// console.log(features);
+				// L.geoJson(geojson,{
+				// 	pointToLayer: function(feature, latlng) {
+				// 		var myStyle = {
+				// 			radius: 3,
+				// 			fillColor: "#ff7800",
+				// 			color: "#000",
+				// 			weight: 1,
+				// 			opacity: 1,
+				// 			fillOpacity: 1
+				// 		};
 
-						if (feature.properties.datastreams[0].current_value > 100) {
-							myStyle.fillColor = 'red';
-						} else {
-							myStyle.fillColor = 'green';							
-						}
-						return L.circleMarker(latlng, myStyle);
-					},
-					onEachFeature: function (feature, layer) {
-						var popupContent = 
-								"<p>"+feature.properties.title+"<p>" +
-								"<p>PM10: "+feature.properties.datastreams[0].current_value+"<p>" +
-								"<p>PM2.5: "+feature.properties.datastreams[2].current_value+"<p>";
+				// 		if (feature.properties.datastreams[0].current_value > 100) {
+				// 			myStyle.fillColor = 'red';
+				// 		} else {
+				// 			myStyle.fillColor = 'green';							
+				// 		}
+				// 		return L.circleMarker(latlng, myStyle);
+				// 	},
+				// 	onEachFeature: function (feature, layer) {
+				// 		var popupContent = 
+				// 				"<p>"+feature.properties.title+"<p>" +
+				// 				"<p>PM10: "+feature.properties.datastreams[0].current_value+"<p>" +
+				// 				"<p>PM2.5: "+feature.properties.datastreams[2].current_value+"<p>";
 
-						layer.bindPopup(popupContent);
-					}
-				}).addTo(map);
+				// 		layer.bindPopup(popupContent);
+				// 	}
+				// }).addTo(map);
 			});
+
 		});
 
 
