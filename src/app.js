@@ -1,6 +1,61 @@
 
+var 
+	config = require('./config'),
+	_ = require('underscore'),
+	async = require('async'),
+	sensors = config.sensors;
 
-function xivelyApiGet(feed_id, x_apikey, params, callback){
+/*
+ * Initialize map
+ */
+
+var map = L.map('map').setView([-14.82,-49.09515], 4);
+var xively_endpoint = "https://api.xively.com/v2/feeds/";
+var sensors_geojson;
+
+L.tileLayer('http://{s}.tiles.mapbox.com/v3/infoamazonia.h17kafbd/{z}/{x}/{y}.png', {
+	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+/*
+ * Add sensors to map
+ */
+
+
+_.each(sensors, function(sensor){
+	// var marker = L.marker(sensor.latlon).addTo(map);
+	var marker = L.marker(sensor.latlon);
+
+	var popupContent = 
+				"<p> "+sensor.options.name+" <p>";
+
+	marker.bindPopup(popupContent);
+
+	marker.addTo(map);
+
+})
+
+/*
+ * Get sensor data
+ */
+
+async.map(sensors, function(sensor, doneMap){
+	console.log(sensors);
+	updateSensor(sensor, doneMap);
+}, function(err, transformed){
+	sensors = transformed;
+	console.log(sensors[0]);
+})
+
+function updateSensor(sensor, doneUpdateSensor){
+	getXivelyData(sensor.feed_id, sensor.x_apikey, function(err, data){
+		if (err) return doneUpdateSensor(err);
+		sensor.data = data;
+		doneUpdateSensor(null, sensor);
+	})
+}
+
+function getXivelyData(feed_id, x_apikey, params, callback){
 
 	// if no data is passed	
 	if (!callback) {
@@ -83,6 +138,7 @@ function getDatastream(feed_id, x_apikey, start, duration, callback){
 function parseSensorGeoJSON(geojson, doneParse){
 
 	async.each(geojson.features, function(f, callback){
+		console.log(f);
 		getDatastream(f.properties['feed_id'], f.properties['X-ApiKey'], '2014-05-05T', '6hours', function(err, sensorData){
 			if (err) return callback(err);
 			else {

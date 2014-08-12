@@ -1,4 +1,4 @@
-== Sensors
+# Sensors map
 
 Clone locally and run:
 

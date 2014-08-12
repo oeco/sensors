@@ -5,25 +5,77 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" href="../dist/leaflet.css" />
+	<link rel="stylesheet" href="dist/leaflet.css" />
+	<link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
-	<div id="map" style="width: 400px; height: 300px"></div>
+	<div id="map" ></div>
+	
+	<div class="tab-content">
+		<div class="row">
+			<h1>
+				DustDuinoBR1
+			</h1>
+		</div>
+		<div class="row">
+			<h2 class="column">PM25</h2>
+			<h2 class="column">PM10</h2>
+		</div>
+		<div class="row">
+			<div class="column">
+				<img src="https://api.xively.com/v2/feeds/337571715/datastreams/PM25.png"/>
+			</div>
+			<div class="column">
+				<img src="https://api.xively.com/v2/feeds/337571715/datastreams/PM10.png"/>
+			</div>
+		</div>
+	</div.
 
-	<script src="../dist/jquery-1.11.1.min.js"></script>
-	<script src="../dist/underscore-min.js"></script>	
-	<script src="../dist/async.js"></script>	
-	<script src="../dist/leaflet.js"></script>
-	<script src="../lib/sensors.js"></script>
+	<div class="tab-content">
+		<div class="row">
+			<h1>
+				DustDuinoBR2
+			</h1>
+		</div>
+		<div class="row">
+			<div class="column">PM25</div>
+			<div class="column">PM10</div>			
+		</div>
+		<div class="row">
+			<div class="column">
+				<img src="https://api.xively.com/v2/feeds/1070388971/datastreams/PM25.png"/>
+			</div>
+			<div class="column">
+				<img src="https://api.xively.com/v2/feeds/1070388971/datastreams/PM10.png"/>
+			</div>			
+		</div>
+	</div>
+
+	<div class="tab-content">
+		<div class="row">
+			<h1>
+				DustDuinoBR3
+			</h1>
+		</div>
+		<div class="row">
+			<div class="column">PM25</div>
+			<div class="column">PM10</div>			
+		</div>
+		<div class="row">
+			<div class="column">
+				<img src="https://api.xively.com/v2/feeds/2001586077/datastreams/PM25.png"/>
+			</div>
+			<div class="column">
+				<img src="https://api.xively.com/v2/feeds/2001586077/datastreams/PM10.png"/>
+			</div>			
+		</div>
+	</div>
+
+	<script src="dist/jquery-1.11.1.min.js"></script>
+	<script src="dist/leaflet.js"></script>
+	<script src="js/app.js"></script>
 
 	<script>
-		var map = L.map('map').setView([-14.82,-49.09515], 4);
-		var xively_endpoint = "https://api.xively.com/v2/feeds/";
-		var sensors_geojson;
-
-		L.tileLayer('http://{s}.tiles.mapbox.com/v3/infoamazonia.h17kafbd/{z}/{x}/{y}.png', {
-			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-		}).addTo(map);
 
 		// var fetchSensorData = function(feed_id, x_apikey, callback) {
 		// 	$.ajax({
@@ -59,11 +111,11 @@
 		// 	console.log(data);
 		// })
 
-		$.getJSON("sensors.geojson", function(geojson) {
+		// $.getJSON("sensors.geojson", function(geojson) {
 
-			var features = [];
+			// var features = [];
 
-			parseSensorGeoJSON(geojson, function(){
+			// parseSensorGeoJSON(geojson, function(){
 				// geojson.features = features;
 				// console.log(features);
 				// L.geoJson(geojson,{
@@ -93,9 +145,9 @@
 				// 		layer.bindPopup(popupContent);
 				// 	}
 				// }).addTo(map);
-			});
+			// });
 
-		});
+		// });
 
 
 	</script>

@@ -1,5 +1,31 @@
 {
+	"name": "sensorsmap",
+	"description": "Sensors map",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/oeco/sensors"
+	},
+	"version": "0.1.0",
+	"author": "Vitor George <vitor.george@gmail.com>",
 	"scripts": {
 		"start": "python -m SimpleHTTPServer"
-	}
+	},
+	"dependencies": {
+		"underscore": "latest",
+		"async": "latest",
+		"jquery": "latest",
+		"angular": "latest",
+		"leaflet": "latest"
+	},
+	"devDependencies": {
+		"grunt": "latest",
+		"grunt-browserify": "latest",
+		"grunt-contrib-uglify": "latest",
+		"grunt-contrib-connect": "latest",
+		"grunt-contrib-watch": "latest"
+	},
+	"keywords": [
+		"sensors",
+		"dustduino"
+	]
 }
